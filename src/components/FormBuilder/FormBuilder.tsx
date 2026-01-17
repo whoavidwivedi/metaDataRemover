@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import Draggable, { type DraggableData, type DraggableEvent } from 'react-draggable';
 import { motion } from 'framer-motion';
-import { Type, CheckSquare, Trash2, Download, Plus, AlignLeft, CircleDot, ChevronDown, PenTool, List, ListOrdered } from 'lucide-react';
-import { generateFormPDF, type FormField } from '../../utils/pdfFormGenerator';
+import { Type, CheckSquare, Trash2, Download, Plus, AlignLeft, CircleDot, ChevronDown, PenTool, List, ListOrdered, Lock } from 'lucide-react';
+import { generateFormPDF, makePDFReadonly, type FormField } from '../../utils/pdfFormGenerator';
 
 const DraggableFieldItem = ({ 
   field, 
@@ -229,6 +229,8 @@ const DraggableFieldItem = ({
 export const FormBuilder = () => {
   const [fields, setFields] = useState<FormField[]>([]);
   const [loading, setLoading] = useState(false);
+  const [readonlyLoading, setReadonlyLoading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   // Ref to canvas to calculate bounds if needed, currently using fixed size 595x842 (A4 scale)
   const canvasRef = useRef<HTMLDivElement>(null);
@@ -309,9 +311,40 @@ export const FormBuilder = () => {
       URL.revokeObjectURL(url);
     } catch (error) {
       console.error('Failed to generate PDF', error);
-      alert('Failed to generate PDF');
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      alert(`Failed to generate PDF: ${errorMessage}`);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleMakeReadonly = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file || file.type !== 'application/pdf') {
+      alert('Please select a valid PDF file');
+      return;
+    }
+
+    setReadonlyLoading(true);
+    try {
+      const readonlyBlob = await makePDFReadonly(file);
+      const url = URL.createObjectURL(readonlyBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = file.name.replace('.pdf', '_readonly.pdf');
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Failed to make PDF readonly', error);
+      alert('Failed to make PDF readonly. Please ensure the PDF is valid.');
+    } finally {
+      setReadonlyLoading(false);
+      // Reset file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     }
   };
 
@@ -429,7 +462,7 @@ export const FormBuilder = () => {
           </div>
         </div>
 
-        <div className="bg-zinc-900/95 backdrop-blur-xl border border-zinc-700/50 rounded-2xl shadow-xl p-6 mt-auto">
+        <div className="bg-zinc-900/95 backdrop-blur-xl border border-zinc-700/50 rounded-2xl shadow-xl p-6 mt-auto space-y-3">
           <button
             onClick={handleExport}
             disabled={fields.length === 0 || loading}
@@ -441,6 +474,34 @@ export const FormBuilder = () => {
                </>
              )}
           </button>
+          
+          <div className="relative">
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".pdf"
+              onChange={handleMakeReadonly}
+              className="hidden"
+              id="pdf-readonly-input"
+            />
+            <label
+              htmlFor="pdf-readonly-input"
+              className={`w-full py-4 bg-zinc-800 text-white font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-zinc-700 transition-colors cursor-pointer shadow-lg ${
+                readonlyLoading ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
+            >
+              {readonlyLoading ? (
+                'Processing...'
+              ) : (
+                <>
+                  <Lock className="w-5 h-5" /> Make PDF Readonly
+                </>
+              )}
+            </label>
+            <p className="text-xs text-zinc-400 mt-2 text-center">
+              Upload a filled PDF to make it readonly
+            </p>
+          </div>
         </div>
       </div>
 

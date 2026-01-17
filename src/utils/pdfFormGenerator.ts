@@ -1,5 +1,14 @@
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 
+/**
+ * Sanitizes a field ID to be valid for PDF form field names
+ * PDF field names can contain letters, numbers, and certain special characters
+ */
+function sanitizeFieldId(id: string): string {
+  // Replace invalid characters with underscores
+  return id.replace(/[^a-zA-Z0-9._-]/g, '_');
+}
+
 export interface FormField {
   id: string;
   type: 'text' | 'checkbox' | 'textarea' | 'radio' | 'dropdown' | 'signature' | 'label' | 'ul' | 'ol';
@@ -22,9 +31,21 @@ export async function generateFormPDF(fields: FormField[]): Promise<Blob> {
   const pageHeight = 842;
 
   for (const field of fields) {
+    // Validate field coordinates and dimensions
+    if (field.width <= 0 || field.height <= 0) {
+      console.warn(`Skipping field ${field.id}: invalid dimensions`);
+      continue;
+    }
+    
     // Invert Y coordinate.
     // field.y is from top. PDF expects from bottom.
     const pdfY = pageHeight - field.y - field.height;
+    
+    // Validate coordinates are within page bounds
+    if (field.x < 0 || field.x + field.width > 595 || pdfY < 0 || pdfY + field.height > pageHeight) {
+      console.warn(`Skipping field ${field.id}: coordinates out of bounds`);
+      continue;
+    }
 
     // Draw Label
     // For 'label' type (Static Text), we draw the text AT the box position.
@@ -60,8 +81,11 @@ export async function generateFormPDF(fields: FormField[]): Promise<Blob> {
 
     // For other fields, we do NOT draw a label. The entry box is standalone.
 
+    // Sanitize field ID for PDF compatibility
+    const sanitizedId = sanitizeFieldId(field.id);
+
     if (field.type === 'text' || field.type === 'textarea') {
-      const textField = form.createTextField(field.id);
+      const textField = form.createTextField(sanitizedId);
       textField.setText('');
       if (field.type === 'textarea') {
         textField.enableMultiline();
@@ -73,7 +97,7 @@ export async function generateFormPDF(fields: FormField[]): Promise<Blob> {
         height: field.height,
       });
     } else if (field.type === 'checkbox') {
-      const checkBox = form.createCheckBox(field.id);
+      const checkBox = form.createCheckBox(sanitizedId);
       checkBox.addToPage(page, {
         x: field.x,
         y: pdfY,
@@ -82,15 +106,15 @@ export async function generateFormPDF(fields: FormField[]): Promise<Blob> {
       });
     } else if (field.type === 'radio') {
       // Create a unique group for this single button for now
-      const radioGroup = form.createRadioGroup(`group_${field.id}`);
-      radioGroup.addOptionToPage(field.id, page, {
+      const radioGroup = form.createRadioGroup(`group_${sanitizedId}`);
+      radioGroup.addOptionToPage(sanitizedId, page, {
           x: field.x,
           y: pdfY,
           width: field.width,
           height: field.height,
       });
     } else if (field.type === 'dropdown') {
-        const dropdown = form.createDropdown(field.id);
+        const dropdown = form.createDropdown(sanitizedId);
         if (field.options) {
             dropdown.setOptions(field.options);
         } else {
@@ -107,7 +131,7 @@ export async function generateFormPDF(fields: FormField[]): Promise<Blob> {
         // We can create a text field intended for digital signatures or a button.
         // pdf-lib doesn't support creating digital signature fields easily yet.
         // We will fallback to a visual box (rectangle) and a text field.
-        const sigField = form.createTextField(field.id);
+        const sigField = form.createTextField(sanitizedId);
         sigField.enableMultiline();
         sigField.setText('Sign Here');
         sigField.addToPage(page, {
@@ -130,6 +154,51 @@ export async function generateFormPDF(fields: FormField[]): Promise<Blob> {
     }
   }
 
+  // Add instruction text at the bottom of the page about making PDF readonly
+  try {
+    const instructionLines = [
+      'Note: After filling this form, use the "Make PDF Readonly" button',
+      'in the web app to lock all fields and prevent further editing.'
+    ];
+    const fontSize = 7;
+    const lineHeight = 10;
+    const startY = 15; // Start 15px from bottom
+    
+    instructionLines.forEach((line, index) => {
+      // Calculate text width to center it (approximate)
+      const textWidth = line.length * (fontSize * 0.6); // Rough estimate
+      const centeredX = Math.max(20, (595 - textWidth) / 2);
+      
+      page.drawText(line, {
+        x: centeredX,
+        y: startY + (instructionLines.length - 1 - index) * lineHeight,
+        size: fontSize,
+        font: helvetica,
+        color: rgb(0.4, 0.4, 0.4), // Dark gray color
+      });
+    });
+  } catch (error) {
+    // If text drawing fails, continue without it
+    console.warn('Could not add readonly instruction to PDF:', error);
+  }
+
+  const pdfBytes = await pdfDoc.save();
+  return new Blob([pdfBytes as unknown as BlobPart], { type: 'application/pdf' });
+}
+
+/**
+ * Makes a PDF readonly by flattening all form fields
+ * @param pdfFile - The PDF file to process
+ * @returns A new PDF blob with all fields flattened (readonly)
+ */
+export async function makePDFReadonly(pdfFile: File | Blob): Promise<Blob> {
+  const arrayBuffer = await pdfFile.arrayBuffer();
+  const pdfDoc = await PDFDocument.load(arrayBuffer);
+  const form = pdfDoc.getForm();
+  
+  // Flatten all form fields - this makes them non-editable
+  form.flatten();
+  
   const pdfBytes = await pdfDoc.save();
   return new Blob([pdfBytes as unknown as BlobPart], { type: 'application/pdf' });
 }
