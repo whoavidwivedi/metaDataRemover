@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Download, RefreshCw, Lock, Sparkles, CheckCircle, Shield, MapPin, Camera, Calendar, User, FileText } from 'lucide-react';
 import { ImageUploader } from './components/ImageUploader';
