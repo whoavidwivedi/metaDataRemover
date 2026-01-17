@@ -406,7 +406,7 @@ export default function App() {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center mb-10 relative z-10 w-full max-w-2xl"
+        className="text-center mb-12 relative z-10 w-full max-w-4xl"
       >
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-muted border border-border text-xs font-semibold text-primary mb-8 backdrop-blur-md shadow-sm">
           <IconShield size={14} className="stroke-[2.5]" />
@@ -415,12 +415,53 @@ export default function App() {
         <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight text-foreground leading-[1.1]">
           Privacy <span className="text-primary">Tools</span>
         </h1>
-        <p className="text-muted-foreground text-lg leading-relaxed max-w-lg mx-auto mb-8">
-          Remove sensitive metadata from photos and build interactive PDF forms. All processing happens locally in your browser.
+        <p className="text-muted-foreground text-lg leading-relaxed max-w-2xl mx-auto mb-10">
+          Remove sensitive metadata from photos and build interactive PDF forms. All processing happens locally in your browser—your data never leaves your device.
         </p>
 
+        {/* Feature Cards */}
+        <div className="grid md:grid-cols-2 gap-4 mb-10 max-w-3xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="group relative p-6 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/30 transition-all hover:shadow-lg hover:shadow-primary/5"
+          >
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                <IconEraser size={24} className="text-primary" />
+              </div>
+              <div className="flex-1 text-left">
+                <h3 className="font-bold text-foreground mb-2">Metadata Cleaner</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Strip Exif, XMP, and IPTC data from your photos. Protect your privacy by removing location, camera settings, and other sensitive metadata.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="group relative p-6 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/30 transition-all hover:shadow-lg hover:shadow-primary/5"
+          >
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                <IconWand size={24} className="text-primary" />
+              </div>
+              <div className="flex-1 text-left">
+                <h3 className="font-bold text-foreground mb-2">PDF Form Builder</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Create interactive PDF forms with drag-and-drop fields. Build professional forms and make them readonly after filling.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
         {/* Tab Navigation */}
-        <div className="inline-flex p-1.5 bg-muted/50 rounded-2xl border border-border/50 backdrop-blur-sm">
+        <div className="inline-flex p-1.5 bg-muted/50 rounded-2xl border border-border/50 backdrop-blur-sm shadow-sm">
           <button
             onClick={() => setActiveTab('home')}
             className={`
