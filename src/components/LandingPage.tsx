@@ -1,6 +1,6 @@
 import { Shield, FileText, ArrowRight, Lock, Zap, Sparkles, Rocket, Star } from 'lucide-react';
 import { motion, useMotionValue } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 interface LandingPageProps {
   onNavigate: (page: 'home' | 'builder') => void;
@@ -8,19 +8,23 @@ interface LandingPageProps {
 
 // Floating particles component
 const FloatingParticle = ({ delay, duration }: { delay: number; duration: number }) => {
-  const x = useMotionValue(Math.random() * 100);
-  const y = useMotionValue(Math.random() * 100);
+  const [initialX] = useState(() => Math.random() * 100);
+  const [initialY] = useState(() => Math.random() * 100);
+  const [randomXOffset] = useState(() => Math.random() * 20 - 10);
+  
+  const x = useMotionValue(initialX);
+  const y = useMotionValue(initialY);
   
   return (
     <motion.div
       className="absolute w-2 h-2 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 opacity-60 blur-sm"
       style={{
-        left: `${x.get()}%`,
-        top: `${y.get()}%`,
+        left: `${initialX}%`,
+        top: `${initialY}%`,
       }}
       animate={{
         y: [0, -30, 0],
-        x: [0, Math.random() * 20 - 10, 0],
+        x: [0, randomXOffset, 0],
         scale: [1, 1.5, 1],
         opacity: [0.3, 0.8, 0.3],
       }}
@@ -45,6 +49,12 @@ const GradientText = ({ children, className = "" }: { children: React.ReactNode;
 
 export const LandingPage = ({ onNavigate }: LandingPageProps) => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  const particles = useMemo(() => Array.from({ length: 15 }).map((_, i) => ({
+    id: i,
+    delay: i * 0.2,
+    duration: 3 + Math.random() * 2
+  })), []);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -78,8 +88,8 @@ export const LandingPage = ({ onNavigate }: LandingPageProps) => {
       </div>
 
       {/* Floating particles */}
-      {Array.from({ length: 15 }).map((_, i) => (
-        <FloatingParticle key={i} delay={i * 0.2} duration={3 + Math.random() * 2} />
+      {particles.map((p) => (
+        <FloatingParticle key={p.id} delay={p.delay} duration={p.duration} />
       ))}
 
       {/* Hero Section */}
