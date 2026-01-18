@@ -43,6 +43,9 @@ import {
   IconCrop,
   IconPalette,
   IconMail,
+  IconBinaryTree,
+  IconChartBar,
+  IconNotes,
 } from '@tabler/icons-react';
 import { FileUpload } from './components/ui/file-upload';
 import { FormBuilder } from './components/FormBuilder/FormBuilder';
@@ -98,6 +101,12 @@ import { SQLFormatter } from './components/SQLFormatter/SQLFormatter';
 import { JSONPathFinder } from './components/JSONPathFinder/JSONPathFinder';
 import { XMLValidator } from './components/XMLValidator/XMLValidator';
 import { HTTPStatusLookup } from './components/HTTPStatusLookup/HTTPStatusLookup';
+import { TextEncryption } from './components/TextEncryption/TextEncryption';
+import { CSVTableViewer } from './components/CSVTableViewer/CSVTableViewer';
+import { JSONTreeViewer } from './components/JSONTreeViewer/JSONTreeViewer';
+import { DataStatistics } from './components/DataStatistics/DataStatistics';
+import { Notes } from './components/Notes/Notes';
+import { ImageWatermark } from './components/ImageWatermark/ImageWatermark';
 import { removeMetadata, formatBytes } from './utils/imageProcessor';
 import { Button } from './components/ui/stateful-button';
 
@@ -472,9 +481,224 @@ function MetadataRemover() {
   );
 }
 
+type ToolTab = 'home' | 'builder' | 'editor' | 'compressor' | 'converter' | 'json-formatter' | 'xml-json-converter' | 'text-diff' | 'password-generator' | 'qrcode' | 'base64' | 'hash-generator' | 'csv-json-converter' | 'markdown-editor' | 'text-utilities' | 'yaml-formatter' | 'html-css-formatter' | 'uuid-generator' | 'calculator' | 'stopwatch' | 'jwt-decoder' | 'url-encoder' | 'password-strength' | 'data-masking' | 'regex-tester' | 'json-to-typescript' | 'color-picker' | 'api-builder' | 'code-minifier' | 'lorem-ipsum' | 'text-to-speech' | 'image-format-converter' | 'qrcode-reader' | 'image-cropper' | 'unit-converter' | 'datetime-converter' | 'number-base-converter' | 'morse-code' | 'roman-numeral' | 'barcode-generator' | 'random-data' | 'browser-info' | 'clipboard-history' | 'color-palette' | 'ip-tools' | 'email-validator' | 'file-hash-checker' | 'two-factor-auth' | 'graphql-formatter' | 'curl-generator' | 'sql-formatter' | 'json-path-finder' | 'xml-validator' | 'http-status-lookup' | 'text-encryption' | 'csv-table-viewer' | 'json-tree-viewer' | 'data-statistics' | 'notes' | 'image-watermark';
+
+// Mapping from short URL-friendly names to full tool names
+const toolUrlMap: Record<string, ToolTab> = {
+  'json': 'json-formatter',
+  'xml': 'xml-json-converter',
+  'diff': 'text-diff',
+  'password': 'password-generator',
+  'qr': 'qrcode',
+  'hash': 'hash-generator',
+  'csv': 'csv-json-converter',
+  'markdown': 'markdown-editor',
+  'text': 'text-utilities',
+  'yaml': 'yaml-formatter',
+  'html': 'html-css-formatter',
+  'uuid': 'uuid-generator',
+  'calc': 'calculator',
+  'jwt': 'jwt-decoder',
+  'url': 'url-encoder',
+  'pwd-strength': 'password-strength',
+  'mask': 'data-masking',
+  'regex': 'regex-tester',
+  'json-ts': 'json-to-typescript',
+  'color': 'color-picker',
+  'api': 'api-builder',
+  'minify': 'code-minifier',
+  'lorem': 'lorem-ipsum',
+  'tts': 'text-to-speech',
+  'img-convert': 'image-format-converter',
+  'qr-reader': 'qrcode-reader',
+  'crop': 'image-cropper',
+  'unit': 'unit-converter',
+  'datetime': 'datetime-converter',
+  'base': 'number-base-converter',
+  'morse': 'morse-code',
+  'roman': 'roman-numeral',
+  'barcode': 'barcode-generator',
+  'random': 'random-data',
+  'browser': 'browser-info',
+  'clipboard': 'clipboard-history',
+  'palette': 'color-palette',
+  'ip': 'ip-tools',
+  'email': 'email-validator',
+  'file-hash': 'file-hash-checker',
+  '2fa': 'two-factor-auth',
+  'graphql': 'graphql-formatter',
+  'curl': 'curl-generator',
+  'sql': 'sql-formatter',
+  'json-path': 'json-path-finder',
+  'xml-validate': 'xml-validator',
+  'http': 'http-status-lookup',
+  'encrypt': 'text-encryption',
+  'csv-view': 'csv-table-viewer',
+  'json-tree': 'json-tree-viewer',
+  'stats': 'data-statistics',
+  'watermark': 'image-watermark',
+};
+
+// Reverse mapping: from tool name to short URL name
+const toolToUrlMap: Record<ToolTab, string> = {
+  'home': 'home',
+  'builder': 'builder',
+  'editor': 'editor',
+  'compressor': 'compressor',
+  'converter': 'converter',
+  'json-formatter': 'json',
+  'xml-json-converter': 'xml',
+  'text-diff': 'diff',
+  'password-generator': 'password',
+  'qrcode': 'qr',
+  'base64': 'base64',
+  'hash-generator': 'hash',
+  'csv-json-converter': 'csv',
+  'markdown-editor': 'markdown',
+  'text-utilities': 'text',
+  'yaml-formatter': 'yaml',
+  'html-css-formatter': 'html',
+  'uuid-generator': 'uuid',
+  'calculator': 'calc',
+  'stopwatch': 'stopwatch',
+  'jwt-decoder': 'jwt',
+  'url-encoder': 'url',
+  'password-strength': 'pwd-strength',
+  'data-masking': 'mask',
+  'regex-tester': 'regex',
+  'json-to-typescript': 'json-ts',
+  'color-picker': 'color',
+  'api-builder': 'api',
+  'code-minifier': 'minify',
+  'lorem-ipsum': 'lorem',
+  'text-to-speech': 'tts',
+  'image-format-converter': 'img-convert',
+  'qrcode-reader': 'qr-reader',
+  'image-cropper': 'crop',
+  'unit-converter': 'unit',
+  'datetime-converter': 'datetime',
+  'number-base-converter': 'base',
+  'morse-code': 'morse',
+  'roman-numeral': 'roman',
+  'barcode-generator': 'barcode',
+  'random-data': 'random',
+  'browser-info': 'browser',
+  'clipboard-history': 'clipboard',
+  'color-palette': 'palette',
+  'ip-tools': 'ip',
+  'email-validator': 'email',
+  'file-hash-checker': 'file-hash',
+  'two-factor-auth': '2fa',
+  'graphql-formatter': 'graphql',
+  'curl-generator': 'curl',
+  'sql-formatter': 'sql',
+  'json-path-finder': 'json-path',
+  'xml-validator': 'xml-validate',
+  'http-status-lookup': 'http',
+  'text-encryption': 'encrypt',
+  'csv-table-viewer': 'csv-view',
+  'json-tree-viewer': 'json-tree',
+  'data-statistics': 'stats',
+  'notes': 'notes',
+  'image-watermark': 'watermark',
+};
+
+const isValidTool = (tool: string | null): tool is ToolTab => {
+  if (!tool) return false;
+  // Check if it's a short URL name and convert it
+  if (toolUrlMap[tool]) {
+    return true;
+  }
+  // Check if it's a full tool name
+  const validTools: ToolTab[] = ['home', 'builder', 'editor', 'compressor', 'converter', 'json-formatter', 'xml-json-converter', 'text-diff', 'password-generator', 'qrcode', 'base64', 'hash-generator', 'csv-json-converter', 'markdown-editor', 'text-utilities', 'yaml-formatter', 'html-css-formatter', 'uuid-generator', 'calculator', 'stopwatch', 'jwt-decoder', 'url-encoder', 'password-strength', 'data-masking', 'regex-tester', 'json-to-typescript', 'color-picker', 'api-builder', 'code-minifier', 'lorem-ipsum', 'text-to-speech', 'image-format-converter', 'qrcode-reader', 'image-cropper', 'unit-converter', 'datetime-converter', 'number-base-converter', 'morse-code', 'roman-numeral', 'barcode-generator', 'random-data', 'browser-info', 'clipboard-history', 'color-palette', 'ip-tools', 'email-validator', 'file-hash-checker', 'two-factor-auth', 'graphql-formatter', 'curl-generator', 'sql-formatter', 'json-path-finder', 'xml-validator', 'http-status-lookup', 'text-encryption', 'csv-table-viewer', 'json-tree-viewer', 'data-statistics', 'notes', 'image-watermark'];
+  return validTools.includes(tool as ToolTab);
+};
+
+// Convert URL parameter to tool name
+const urlToTool = (urlParam: string | null): ToolTab | null => {
+  if (!urlParam) return null;
+  // Check if it's a short URL name
+  if (toolUrlMap[urlParam]) {
+    return toolUrlMap[urlParam];
+  }
+  // Check if it's already a full tool name
+  if (isValidTool(urlParam)) {
+    return urlParam;
+  }
+  return null;
+};
+
+// Convert tool name to URL parameter
+const toolToUrl = (tool: ToolTab): string => {
+  return toolToUrlMap[tool] || tool;
+};
+
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'home' | 'builder' | 'editor' | 'compressor' | 'converter' | 'json-formatter' | 'xml-json-converter' | 'text-diff' | 'password-generator' | 'qrcode' | 'base64' | 'hash-generator' | 'csv-json-converter' | 'markdown-editor' | 'text-utilities' | 'yaml-formatter' | 'html-css-formatter' | 'uuid-generator' | 'calculator' | 'stopwatch' | 'jwt-decoder' | 'url-encoder' | 'password-strength' | 'data-masking' | 'regex-tester' | 'json-to-typescript' | 'color-picker' | 'api-builder' | 'code-minifier' | 'lorem-ipsum' | 'text-to-speech' | 'image-format-converter' | 'qrcode-reader' | 'image-cropper' | 'unit-converter' | 'datetime-converter' | 'number-base-converter' | 'morse-code' | 'roman-numeral' | 'barcode-generator' | 'random-data' | 'browser-info' | 'clipboard-history' | 'color-palette' | 'ip-tools' | 'email-validator' | 'file-hash-checker' | 'two-factor-auth' | 'graphql-formatter' | 'curl-generator' | 'sql-formatter' | 'json-path-finder' | 'xml-validator' | 'http-status-lookup'>('home');
+  // Initialize activeTab from URL or default to 'home'
+  const getInitialTab = (): ToolTab => {
+    const params = new URLSearchParams(window.location.search);
+    const toolParam = params.get('tool');
+    const tool = urlToTool(toolParam);
+    return tool || 'home';
+  };
+
+  const [activeTab, setActiveTab] = useState<ToolTab>(getInitialTab);
   const contentRef = useRef<HTMLDivElement>(null);
+
+  // Track if this is the initial mount to avoid updating URL on first render
+  const isInitialMount = useRef(true);
+
+  // Update URL when activeTab changes
+  useEffect(() => {
+    // Skip URL update on initial mount (URL is already correct from getInitialTab)
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const currentToolParam = params.get('tool');
+    const expectedUrlParam = toolToUrl(activeTab);
+    
+    // Only update URL if it's different from current state
+    if (activeTab === 'home' && currentToolParam === null) {
+      return; // Already correct
+    }
+    if (activeTab !== 'home' && currentToolParam === expectedUrlParam) {
+      return; // Already correct
+    }
+
+    if (activeTab === 'home') {
+      // Remove tool parameter if on home page
+      params.delete('tool');
+    } else {
+      params.set('tool', expectedUrlParam);
+    }
+    
+    const newUrl = params.toString() 
+      ? `${window.location.pathname}?${params.toString()}`
+      : window.location.pathname;
+    
+    // Use pushState to allow browser back/forward navigation
+    window.history.pushState({}, '', newUrl);
+  }, [activeTab]);
+
+  // Handle browser back/forward navigation
+  useEffect(() => {
+    const handlePopState = () => {
+      const params = new URLSearchParams(window.location.search);
+      const toolParam = params.get('tool');
+      const tool = urlToTool(toolParam);
+      if (tool) {
+        setActiveTab(tool);
+      } else {
+        setActiveTab('home');
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   // Scroll to content when tab changes (except on initial load)
   useEffect(() => {
@@ -490,7 +714,7 @@ export default function App() {
     }
   }, [activeTab]);
 
-  const handleTabChange = (tab: typeof activeTab) => {
+  const handleTabChange = (tab: ToolTab) => {
     setActiveTab(tab);
   };
 
@@ -1602,6 +1826,127 @@ export default function App() {
               </div>
             </div>
           </motion.button>
+
+          {/* New Features Batch 3 */}
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 5.5 }}
+            onClick={() => handleTabChange('text-encryption')}
+            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+          >
+            <div className="flex flex-col items-center text-center gap-3">
+              <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                <IconLock size={24} className="text-primary" />
+              </div>
+              <div className="w-full min-h-[3.5rem]">
+                <h3 className="font-bold text-sm text-foreground mb-1.5 break-words">Text Encryption</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                  Encrypt/decrypt text
+                </p>
+              </div>
+            </div>
+          </motion.button>
+
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 5.6 }}
+            onClick={() => handleTabChange('csv-table-viewer')}
+            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+          >
+            <div className="flex flex-col items-center text-center gap-3">
+              <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                <IconLayoutGrid size={24} className="text-primary" />
+              </div>
+              <div className="w-full min-h-[3.5rem]">
+                <h3 className="font-bold text-sm text-foreground mb-1.5 break-words">CSV Viewer</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                  View & filter CSV data
+                </p>
+              </div>
+            </div>
+          </motion.button>
+
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 5.7 }}
+            onClick={() => handleTabChange('json-tree-viewer')}
+            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+          >
+            <div className="flex flex-col items-center text-center gap-3">
+              <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                <IconBinaryTree size={24} className="text-primary" />
+              </div>
+              <div className="w-full min-h-[3.5rem]">
+                <h3 className="font-bold text-sm text-foreground mb-1.5 break-words">JSON Tree</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                  Interactive JSON viewer
+                </p>
+              </div>
+            </div>
+          </motion.button>
+
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 5.8 }}
+            onClick={() => handleTabChange('data-statistics')}
+            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+          >
+            <div className="flex flex-col items-center text-center gap-3">
+              <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                <IconChartBar size={24} className="text-primary" />
+              </div>
+              <div className="w-full min-h-[3.5rem]">
+                <h3 className="font-bold text-sm text-foreground mb-1.5 break-words">Data Stats</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                  Analyze CSV/JSON data
+                </p>
+              </div>
+            </div>
+          </motion.button>
+
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 5.9 }}
+            onClick={() => handleTabChange('notes')}
+            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+          >
+            <div className="flex flex-col items-center text-center gap-3">
+              <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                <IconNotes size={24} className="text-primary" />
+              </div>
+              <div className="w-full min-h-[3.5rem]">
+                <h3 className="font-bold text-sm text-foreground mb-1.5 break-words">Notes</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                  Notes & scratchpad
+                </p>
+              </div>
+            </div>
+          </motion.button>
+
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 6.0 }}
+            onClick={() => handleTabChange('image-watermark')}
+            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+          >
+            <div className="flex flex-col items-center text-center gap-3">
+              <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                <IconPhoto size={24} className="text-primary" />
+              </div>
+              <div className="w-full min-h-[3.5rem]">
+                <h3 className="font-bold text-sm text-foreground mb-1.5 break-words">Watermark</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                  Add watermarks to images
+                </p>
+              </div>
+            </div>
+          </motion.button>
         </div>
 
         {/* Tab Navigation - Enhanced Design */}
@@ -2452,11 +2797,35 @@ export default function App() {
             <motion.div key="xml-validator" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.3 }}>
               <XMLValidator />
             </motion.div>
-          ) : (
+          ) : activeTab === 'http-status-lookup' ? (
             <motion.div key="http-status-lookup" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.3 }}>
               <HTTPStatusLookup />
             </motion.div>
-          )}
+          ) : activeTab === 'text-encryption' ? (
+            <motion.div key="text-encryption" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.3 }}>
+              <TextEncryption />
+            </motion.div>
+          ) : activeTab === 'csv-table-viewer' ? (
+            <motion.div key="csv-table-viewer" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.3 }}>
+              <CSVTableViewer />
+            </motion.div>
+          ) : activeTab === 'json-tree-viewer' ? (
+            <motion.div key="json-tree-viewer" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.3 }}>
+              <JSONTreeViewer />
+            </motion.div>
+          ) : activeTab === 'data-statistics' ? (
+            <motion.div key="data-statistics" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.3 }}>
+              <DataStatistics />
+            </motion.div>
+          ) : activeTab === 'notes' ? (
+            <motion.div key="notes" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.3 }}>
+              <Notes />
+            </motion.div>
+          ) : activeTab === 'image-watermark' ? (
+            <motion.div key="image-watermark" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.3 }}>
+              <ImageWatermark />
+            </motion.div>
+          ) : null}
         </AnimatePresence>
       </div>
 
