@@ -9,6 +9,7 @@ import {
 } from '@tabler/icons-react';
 import { computeDiff, computeInlineDiff, getDiffStats, type DiffSegment } from '../../utils/textDiff';
 import { formatBytes } from '../../utils/imageProcessor';
+import { useToast } from '../ui/toast';
 
 type DiffMode = 'line' | 'inline';
 
@@ -27,6 +28,7 @@ export const TextDiff = () => {
   const [diffMode, setDiffMode] = useState<DiffMode>('line');
   const textarea1Ref = useRef<HTMLTextAreaElement>(null);
   const textarea2Ref = useRef<HTMLTextAreaElement>(null);
+  const { showToast } = useToast();
 
   const handleCompare = () => {
     if (!text1.trim() && !text2.trim()) {
@@ -51,7 +53,7 @@ export const TextDiff = () => {
   };
 
   const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard'));
   };
 
   const handleDownload = (text: string, filename: string) => {
@@ -119,7 +121,7 @@ export const TextDiff = () => {
                   setDiffSegments([]);
                   setStats(null);
                 }}
-                className={`px-4 py-2 rounded-lg border-2 transition-all ${
+                className={`px-4 py-2 rounded-lg border-2 transition-all cursor-pointer ${
                   diffMode === 'line'
                     ? 'border-primary bg-primary/10 text-primary'
                     : 'border-border bg-background text-muted-foreground hover:border-primary/50'
@@ -133,7 +135,7 @@ export const TextDiff = () => {
                   setDiffSegments([]);
                   setStats(null);
                 }}
-                className={`px-4 py-2 rounded-lg border-2 transition-all ${
+                className={`px-4 py-2 rounded-lg border-2 transition-all cursor-pointer ${
                   diffMode === 'inline'
                     ? 'border-primary bg-primary/10 text-primary'
                     : 'border-border bg-background text-muted-foreground hover:border-primary/50'
@@ -203,14 +205,14 @@ export const TextDiff = () => {
                   <>
                     <button
                       onClick={() => handleCopy(text1)}
-                      className="p-2 hover:bg-muted rounded-lg transition-colors"
+                      className="p-2 hover:bg-muted rounded-lg transition-colors cursor-pointer"
                       title="Copy"
                     >
                       <IconCopy className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => handleDownload(text1, 'text1.txt')}
-                      className="p-2 hover:bg-muted rounded-lg transition-colors"
+                      className="p-2 hover:bg-muted rounded-lg transition-colors cursor-pointer"
                       title="Download"
                     >
                       <IconDownload className="w-4 h-4" />
@@ -264,14 +266,14 @@ export const TextDiff = () => {
                   <>
                     <button
                       onClick={() => handleCopy(text2)}
-                      className="p-2 hover:bg-muted rounded-lg transition-colors"
+                      className="p-2 hover:bg-muted rounded-lg transition-colors cursor-pointer"
                       title="Copy"
                     >
                       <IconCopy className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => handleDownload(text2, 'text2.txt')}
-                      className="p-2 hover:bg-muted rounded-lg transition-colors"
+                      className="p-2 hover:bg-muted rounded-lg transition-colors cursor-pointer"
                       title="Download"
                     >
                       <IconDownload className="w-4 h-4" />
@@ -305,7 +307,7 @@ export const TextDiff = () => {
           <button
             onClick={handleCompare}
             disabled={!text1.trim() && !text2.trim()}
-            className="px-8 py-3 bg-primary text-primary-foreground rounded-xl font-semibold hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            className="px-8 py-3 bg-primary text-primary-foreground rounded-xl font-semibold hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 cursor-pointer"
           >
             <IconGitCompare className="w-5 h-5" />
             Compare Texts
@@ -323,7 +325,7 @@ export const TextDiff = () => {
               <div className="flex items-center gap-2">
                 <button
                   onClick={handleClear}
-                  className="px-4 py-2 bg-muted hover:bg-muted/80 rounded-lg transition-colors text-sm font-medium flex items-center gap-2"
+                  className="px-4 py-2 bg-muted hover:bg-muted/80 rounded-lg transition-colors text-sm font-medium flex items-center gap-2 cursor-pointer"
                 >
                   <IconRefresh className="w-4 h-4" />
                   Clear

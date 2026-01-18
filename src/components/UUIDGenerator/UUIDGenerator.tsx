@@ -6,6 +6,7 @@ import {
   IconCheck,
 } from '@tabler/icons-react';
 import { generateUUID, validateUUID, type UUIDVersion } from '../../utils/uuidGenerator';
+import { useToast } from '../ui/toast';
 
 export const UUIDGenerator = () => {
   const [version, setVersion] = useState<UUIDVersion>('v4');
@@ -13,6 +14,7 @@ export const UUIDGenerator = () => {
   const [count, setCount] = useState(1);
   const [validationInput, setValidationInput] = useState('');
   const [isValid, setIsValid] = useState<boolean | null>(null);
+  const { showToast } = useToast();
 
   const handleGenerate = () => {
     const newUuids: string[] = [];
@@ -31,11 +33,11 @@ export const UUIDGenerator = () => {
   };
 
   const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard'));
   };
 
   const handleCopyAll = () => {
-    navigator.clipboard.writeText(uuids.join('\n'));
+    navigator.clipboard.writeText(uuids.join('\n')).then(() => showToast('Copied to clipboard'));
   };
 
   return (
@@ -60,7 +62,7 @@ export const UUIDGenerator = () => {
             <div className="flex gap-3">
               <button
                 onClick={() => setVersion('v4')}
-                className={`px-4 py-2 rounded-xl font-semibold transition-all ${
+                className={`px-4 py-2 rounded-xl font-semibold transition-all cursor-pointer ${
                   version === 'v4'
                     ? 'bg-primary text-primary-foreground'
                     : 'bg-muted text-muted-foreground hover:bg-muted/80'
@@ -70,7 +72,7 @@ export const UUIDGenerator = () => {
               </button>
               <button
                 onClick={() => setVersion('v1')}
-                className={`px-4 py-2 rounded-xl font-semibold transition-all ${
+                className={`px-4 py-2 rounded-xl font-semibold transition-all cursor-pointer ${
                   version === 'v1'
                     ? 'bg-primary text-primary-foreground'
                     : 'bg-muted text-muted-foreground hover:bg-muted/80'
@@ -95,7 +97,7 @@ export const UUIDGenerator = () => {
 
           <button
             onClick={handleGenerate}
-            className="w-full px-6 py-3 bg-primary text-primary-foreground rounded-xl font-semibold hover:opacity-90 transition-all flex items-center justify-center gap-2"
+            className="w-full px-6 py-3 bg-primary text-primary-foreground rounded-xl font-semibold hover:opacity-90 transition-all flex items-center justify-center gap-2 cursor-pointer"
           >
             <IconRefresh className="w-5 h-5" />
             Generate UUID{count > 1 ? 's' : ''}
@@ -120,7 +122,7 @@ export const UUIDGenerator = () => {
                   <code className="flex-1 font-mono text-sm">{uuid}</code>
                   <button
                     onClick={() => handleCopy(uuid)}
-                    className="p-2 hover:bg-muted rounded-lg transition-colors"
+                    className="p-2 hover:bg-muted rounded-lg transition-colors cursor-pointer"
                     title="Copy"
                   >
                     <IconCopy className="w-4 h-4" />
@@ -147,7 +149,7 @@ export const UUIDGenerator = () => {
             />
             <button
               onClick={handleValidate}
-              className="w-full px-6 py-3 bg-muted hover:bg-muted/80 rounded-xl font-semibold transition-all"
+              className="w-full px-6 py-3 bg-muted hover:bg-muted/80 rounded-xl font-semibold transition-all cursor-pointer"
             >
               Validate UUID
             </button>

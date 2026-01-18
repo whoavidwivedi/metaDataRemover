@@ -27,6 +27,7 @@ export const XMLJSONConverter = () => {
   const [rootElement, setRootElement] = useState('root');
   const inputTextareaRef = useRef<HTMLTextAreaElement>(null);
   const outputTextareaRef = useRef<HTMLTextAreaElement>(null);
+  const { showToast } = useToast();
 
   const handleConvert = () => {
     setError(null);
@@ -138,7 +139,7 @@ export const XMLJSONConverter = () => {
   };
 
   const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard'));
   };
 
   const handleDownload = (text: string, filename: string) => {
@@ -218,7 +219,7 @@ export const XMLJSONConverter = () => {
           <div className="flex gap-4">
             <button
               onClick={() => handleConversionTypeChange('xml-to-json')}
-              className={`flex-1 px-6 py-3 rounded-xl border-2 transition-all ${
+              className={`flex-1 px-6 py-3 rounded-xl border-2 transition-all cursor-pointer ${
                 conversionType === 'xml-to-json'
                   ? 'border-primary bg-primary/10 text-primary'
                   : 'border-border bg-background text-muted-foreground hover:border-primary/50'
@@ -231,7 +232,7 @@ export const XMLJSONConverter = () => {
             </button>
             <button
               onClick={() => handleConversionTypeChange('json-to-xml')}
-              className={`flex-1 px-6 py-3 rounded-xl border-2 transition-all ${
+              className={`flex-1 px-6 py-3 rounded-xl border-2 transition-all cursor-pointer ${
                 conversionType === 'json-to-xml'
                   ? 'border-primary bg-primary/10 text-primary'
                   : 'border-border bg-background text-muted-foreground hover:border-primary/50'
@@ -265,7 +266,7 @@ export const XMLJSONConverter = () => {
             {input && (
               <button
                 onClick={handleClear}
-                className="px-4 py-2 bg-muted hover:bg-muted/80 rounded-lg transition-colors text-sm font-medium flex items-center gap-2"
+                className="px-4 py-2 bg-muted hover:bg-muted/80 rounded-lg transition-colors text-sm font-medium flex items-center gap-2 cursor-pointer"
               >
                 <IconRefresh className="w-4 h-4" />
                 Clear
@@ -326,14 +327,14 @@ export const XMLJSONConverter = () => {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => handleCopy(input)}
-                    className="p-2 hover:bg-muted rounded-lg transition-colors"
+                    className="p-2 hover:bg-muted rounded-lg transition-colors cursor-pointer"
                     title="Copy input"
                   >
                     <IconCopy className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => handleDownload(input, `input.${conversionType === 'xml-to-json' ? 'xml' : 'json'}`)}
-                    className="p-2 hover:bg-muted rounded-lg transition-colors"
+                    className="p-2 hover:bg-muted rounded-lg transition-colors cursor-pointer"
                     title="Download input"
                   >
                     <IconDownload className="w-4 h-4" />
@@ -367,14 +368,14 @@ export const XMLJSONConverter = () => {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => handleCopy(output)}
-                    className="p-2 hover:bg-muted rounded-lg transition-colors"
+                    className="p-2 hover:bg-muted rounded-lg transition-colors cursor-pointer"
                     title="Copy output"
                   >
                     <IconCopy className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => handleDownload(output, `output.${conversionType === 'xml-to-json' ? 'json' : 'xml'}`)}
-                    className="p-2 hover:bg-muted rounded-lg transition-colors"
+                    className="p-2 hover:bg-muted rounded-lg transition-colors cursor-pointer"
                     title="Download output"
                   >
                     <IconDownload className="w-4 h-4" />

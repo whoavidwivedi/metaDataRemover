@@ -8,12 +8,14 @@ import {
   IconDownload,
 } from '@tabler/icons-react';
 import { formatYAML, validateYAML } from '../../utils/yamlFormatter';
+import { useToast } from '../ui/toast';
 
 export const YAMLFormatter = () => {
   const [yaml, setYaml] = useState('');
   const [formatted, setFormatted] = useState('');
   const [indent, setIndent] = useState(2);
   const [validation, setValidation] = useState<{ valid: boolean; error?: string } | null>(null);
+  const { showToast } = useToast();
 
   const handleFormat = () => {
     try {
@@ -30,7 +32,7 @@ export const YAMLFormatter = () => {
   };
 
   const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard'));
   };
 
   const handleDownload = (text: string, filename: string) => {
@@ -83,13 +85,13 @@ export const YAMLFormatter = () => {
                 <div className="flex gap-2">
                   <button
                     onClick={handleValidate}
-                    className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors text-sm flex items-center gap-2"
+                    className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors text-sm flex items-center gap-2 cursor-pointer"
                   >
                     Validate
                   </button>
                   <button
                     onClick={() => handleCopy(yaml)}
-                    className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm"
+                    className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm cursor-pointer"
                   >
                     <IconCopy className="w-4 h-4" />
                     Copy
@@ -123,14 +125,14 @@ export const YAMLFormatter = () => {
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleCopy(formatted)}
-                    className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm"
+                    className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm cursor-pointer"
                   >
                     <IconCopy className="w-4 h-4" />
                     Copy
                   </button>
                   <button
                     onClick={() => handleDownload(formatted, 'formatted.yaml')}
-                    className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm"
+                    className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm cursor-pointer"
                   >
                     <IconDownload className="w-4 h-4" />
                     Download

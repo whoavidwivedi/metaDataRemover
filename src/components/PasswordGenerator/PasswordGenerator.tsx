@@ -7,6 +7,7 @@ import {
   IconX,
 } from '@tabler/icons-react';
 import { generatePassword, calculatePasswordStrength, type PasswordOptions } from '../../utils/passwordGenerator';
+import { useToast } from '../ui/toast';
 
 export const PasswordGenerator = () => {
   const [password, setPassword] = useState('');
@@ -21,6 +22,7 @@ export const PasswordGenerator = () => {
   });
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
+  const { showToast } = useToast();
 
   const handleGenerate = () => {
     try {
@@ -35,8 +37,10 @@ export const PasswordGenerator = () => {
 
   const handleCopy = () => {
     if (password) {
-      navigator.clipboard.writeText(password);
-      setCopied(true);
+      navigator.clipboard.writeText(password).then(() => {
+        setCopied(true);
+        showToast('Copied to clipboard');
+      });
       setTimeout(() => setCopied(false), 2000);
     }
   };
@@ -141,7 +145,7 @@ export const PasswordGenerator = () => {
         <div className="flex justify-center">
           <button
             onClick={handleGenerate}
-            className="px-8 py-3 bg-primary text-primary-foreground rounded-xl font-semibold hover:opacity-90 transition-all flex items-center gap-2"
+            className="px-8 py-3 bg-primary text-primary-foreground rounded-xl font-semibold hover:opacity-90 transition-all flex items-center gap-2 cursor-pointer"
           >
             <IconRefresh className="w-5 h-5" />
             Generate Password
@@ -168,7 +172,7 @@ export const PasswordGenerator = () => {
                 />
                 <button
                   onClick={handleCopy}
-                  className="p-2 hover:bg-muted rounded-lg transition-colors"
+                  className="p-2 hover:bg-muted rounded-lg transition-colors cursor-pointer"
                   title="Copy"
                 >
                   {copied ? (

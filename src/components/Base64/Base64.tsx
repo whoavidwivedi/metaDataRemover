@@ -6,12 +6,14 @@ import {
   IconUpload,
 } from '@tabler/icons-react';
 import { encodeBase64, decodeBase64, encodeImageToBase64, validateBase64 } from '../../utils/base64';
+import { useToast } from '../ui/toast';
 
 export const Base64 = () => {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
   const [mode, setMode] = useState<'encode' | 'decode'>('encode');
   const [error, setError] = useState('');
+  const { showToast } = useToast();
 
   const handleEncode = () => {
     try {
@@ -62,7 +64,7 @@ export const Base64 = () => {
   };
 
   const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard'));
   };
 
   return (
@@ -89,7 +91,7 @@ export const Base64 = () => {
               setOutput('');
               setError('');
             }}
-            className={`px-6 py-2 rounded-xl font-semibold transition-all ${
+            className={`px-6 py-2 rounded-xl font-semibold transition-all cursor-pointer ${
               mode === 'encode'
                 ? 'bg-primary text-primary-foreground'
                 : 'bg-muted text-muted-foreground hover:bg-muted/80'
@@ -104,7 +106,7 @@ export const Base64 = () => {
               setOutput('');
               setError('');
             }}
-            className={`px-6 py-2 rounded-xl font-semibold transition-all ${
+            className={`px-6 py-2 rounded-xl font-semibold transition-all cursor-pointer ${
               mode === 'decode'
                 ? 'bg-primary text-primary-foreground'
                 : 'bg-muted text-muted-foreground hover:bg-muted/80'
@@ -139,7 +141,7 @@ export const Base64 = () => {
             />
             <button
               onClick={mode === 'encode' ? handleEncode : handleDecode}
-              className="w-full px-6 py-3 bg-primary text-primary-foreground rounded-xl font-semibold hover:opacity-90 transition-all flex items-center justify-center gap-2"
+              className="w-full px-6 py-3 bg-primary text-primary-foreground rounded-xl font-semibold hover:opacity-90 transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <IconCode className="w-5 h-5" />
               {mode === 'encode' ? 'Encode' : 'Decode'}
@@ -152,7 +154,7 @@ export const Base64 = () => {
               {output && (
                 <button
                   onClick={() => handleCopy(output)}
-                  className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm"
+                  className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm cursor-pointer"
                 >
                   <IconCopy className="w-4 h-4" />
                   Copy

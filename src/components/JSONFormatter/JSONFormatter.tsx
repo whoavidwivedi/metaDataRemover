@@ -22,6 +22,7 @@ export const JSONFormatter = () => {
   const [error, setError] = useState<string | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const outputTextareaRef = useRef<HTMLTextAreaElement>(null);
+  const { showToast } = useToast();
 
   const handleFormat = () => {
     setError(null);
@@ -92,8 +93,7 @@ export const JSONFormatter = () => {
   };
 
   const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text);
-    // You could add a toast notification here
+    navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard'));
   };
 
   const handleDownload = (text: string, filename: string) => {
@@ -182,7 +182,7 @@ export const JSONFormatter = () => {
             {jsonInput && (
               <button
                 onClick={handleClear}
-                className="px-4 py-2 bg-muted hover:bg-muted/80 rounded-lg transition-colors text-sm font-medium flex items-center gap-2"
+                className="px-4 py-2 bg-muted hover:bg-muted/80 rounded-lg transition-colors text-sm font-medium flex items-center gap-2 cursor-pointer"
               >
                 <IconRefresh className="w-4 h-4" />
                 Clear
@@ -265,14 +265,14 @@ export const JSONFormatter = () => {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => handleCopy(jsonInput)}
-                    className="p-2 hover:bg-muted rounded-lg transition-colors"
+                    className="p-2 hover:bg-muted rounded-lg transition-colors cursor-pointer"
                     title="Copy input"
                   >
                     <IconCopy className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => handleDownload(jsonInput, 'input.json')}
-                    className="p-2 hover:bg-muted rounded-lg transition-colors"
+                    className="p-2 hover:bg-muted rounded-lg transition-colors cursor-pointer"
                     title="Download input"
                   >
                     <IconDownload className="w-4 h-4" />
@@ -307,14 +307,14 @@ export const JSONFormatter = () => {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => handleCopy(formattedOutput)}
-                    className="p-2 hover:bg-muted rounded-lg transition-colors"
+                    className="p-2 hover:bg-muted rounded-lg transition-colors cursor-pointer"
                     title="Copy output"
                   >
                     <IconCopy className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => handleDownload(formattedOutput, 'formatted.json')}
-                    className="p-2 hover:bg-muted rounded-lg transition-colors"
+                    className="p-2 hover:bg-muted rounded-lg transition-colors cursor-pointer"
                     title="Download output"
                   >
                     <IconDownload className="w-4 h-4" />

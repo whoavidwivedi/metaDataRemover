@@ -6,10 +6,12 @@ import {
   IconDownload,
 } from '@tabler/icons-react';
 import { markdownToHTML } from '../../utils/markdown';
+import { useToast } from '../ui/toast';
 
 export const MarkdownEditor = () => {
   const [markdown, setMarkdown] = useState('');
   const [html, setHtml] = useState('');
+  const { showToast } = useToast();
 
   const handleConvert = () => {
     const converted = markdownToHTML(markdown);
@@ -17,7 +19,7 @@ export const MarkdownEditor = () => {
   };
 
   const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard'));
   };
 
   const handleDownload = (text: string, filename: string) => {
@@ -56,14 +58,14 @@ export const MarkdownEditor = () => {
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleCopy(markdown)}
-                    className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm"
+                    className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm cursor-pointer"
                   >
                     <IconCopy className="w-4 h-4" />
                     Copy
                   </button>
                   <button
                     onClick={() => handleDownload(markdown, 'markdown.md')}
-                    className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm"
+                    className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm cursor-pointer"
                   >
                     <IconDownload className="w-4 h-4" />
                     Download
@@ -80,7 +82,7 @@ export const MarkdownEditor = () => {
             />
             <button
               onClick={handleConvert}
-              className="w-full px-6 py-3 bg-primary text-primary-foreground rounded-xl font-semibold hover:opacity-90 transition-all flex items-center justify-center gap-2"
+              className="w-full px-6 py-3 bg-primary text-primary-foreground rounded-xl font-semibold hover:opacity-90 transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <IconMarkdown className="w-5 h-5" />
               Convert to HTML
@@ -94,7 +96,7 @@ export const MarkdownEditor = () => {
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleCopy(html)}
-                    className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm"
+                    className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm cursor-pointer"
                   >
                     <IconCopy className="w-4 h-4" />
                     Copy HTML

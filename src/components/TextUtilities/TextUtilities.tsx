@@ -4,6 +4,7 @@ import {
   IconCopy,
 } from '@tabler/icons-react';
 import { getTextStats, convertCase, removeDuplicates, reverseText, sortLines } from '../../utils/textUtilities';
+import { useToast } from '../ui/toast';
 
 export const TextUtilities = () => {
   const [text, setText] = useState('');
@@ -36,7 +37,7 @@ export const TextUtilities = () => {
   };
 
   const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard'));
   };
 
   return (
@@ -70,7 +71,7 @@ export const TextUtilities = () => {
             />
             <button
               onClick={handleStats}
-              className="w-full px-4 py-2 bg-muted hover:bg-muted/80 rounded-lg transition-colors"
+              className="w-full px-4 py-2 bg-muted hover:bg-muted/80 rounded-lg transition-colors cursor-pointer"
             >
               Get Statistics
             </button>
@@ -143,7 +144,7 @@ export const TextUtilities = () => {
                   <button
                     key={caseType}
                     onClick={() => handleCaseConvert(caseType)}
-                    className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors text-sm capitalize"
+                    className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors text-sm capitalize cursor-pointer"
                   >
                     {caseType}
                   </button>
@@ -156,13 +157,13 @@ export const TextUtilities = () => {
               <div className="flex gap-2">
                 <button
                   onClick={() => handleRemoveDuplicates(false)}
-                  className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors text-sm"
+                  className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors text-sm cursor-pointer"
                 >
                   Remove Duplicate Words
                 </button>
                 <button
                   onClick={() => handleRemoveDuplicates(true)}
-                  className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors text-sm"
+                  className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors text-sm cursor-pointer"
                 >
                   Remove Duplicate Lines
                 </button>
@@ -174,13 +175,13 @@ export const TextUtilities = () => {
               <div className="flex gap-2">
                 <button
                   onClick={() => handleReverse(false)}
-                  className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors text-sm"
+                  className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors text-sm cursor-pointer"
                 >
                   Reverse Text
                 </button>
                 <button
                   onClick={() => handleReverse(true)}
-                  className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors text-sm"
+                  className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors text-sm cursor-pointer"
                 >
                   Reverse Lines
                 </button>
@@ -192,13 +193,13 @@ export const TextUtilities = () => {
               <div className="flex gap-2">
                 <button
                   onClick={() => handleSort(true)}
-                  className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors text-sm"
+                  className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors text-sm cursor-pointer"
                 >
                   Sort Lines (A-Z)
                 </button>
                 <button
                   onClick={() => handleSort(false)}
-                  className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors text-sm"
+                  className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors text-sm cursor-pointer"
                 >
                   Sort Lines (Z-A)
                 </button>

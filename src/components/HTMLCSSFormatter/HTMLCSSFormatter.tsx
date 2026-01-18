@@ -6,6 +6,7 @@ import {
   IconDownload,
 } from '@tabler/icons-react';
 import { formatHTML, minifyHTML, formatCSS, minifyCSS } from '../../utils/htmlCssFormatter';
+import { useToast } from '../ui/toast';
 
 export const HTMLCSSFormatter = () => {
   const [input, setInput] = useState('');
@@ -13,6 +14,7 @@ export const HTMLCSSFormatter = () => {
   const [type, setType] = useState<'html' | 'css'>('html');
   const [mode, setMode] = useState<'format' | 'minify'>('format');
   const [indent, setIndent] = useState(2);
+  const { showToast } = useToast();
 
   const handleFormat = () => {
     if (!input.trim()) {
@@ -31,7 +33,7 @@ export const HTMLCSSFormatter = () => {
   };
 
   const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard'));
   };
 
   const handleDownload = (text: string, filename: string) => {
@@ -69,7 +71,7 @@ export const HTMLCSSFormatter = () => {
               setInput('');
               setOutput('');
             }}
-            className={`px-6 py-2 rounded-xl font-semibold transition-all ${
+            className={`px-6 py-2 rounded-xl font-semibold transition-all cursor-pointer ${
               type === 'html'
                 ? 'bg-primary text-primary-foreground'
                 : 'bg-muted text-muted-foreground hover:bg-muted/80'
@@ -83,7 +85,7 @@ export const HTMLCSSFormatter = () => {
               setInput('');
               setOutput('');
             }}
-            className={`px-6 py-2 rounded-xl font-semibold transition-all ${
+            className={`px-6 py-2 rounded-xl font-semibold transition-all cursor-pointer ${
               type === 'css'
                 ? 'bg-primary text-primary-foreground'
                 : 'bg-muted text-muted-foreground hover:bg-muted/80'
@@ -99,7 +101,7 @@ export const HTMLCSSFormatter = () => {
               setMode('format');
               handleFormat();
             }}
-            className={`px-6 py-2 rounded-xl font-semibold transition-all ${
+            className={`px-6 py-2 rounded-xl font-semibold transition-all cursor-pointer ${
               mode === 'format'
                 ? 'bg-primary text-primary-foreground'
                 : 'bg-muted text-muted-foreground hover:bg-muted/80'
@@ -112,7 +114,7 @@ export const HTMLCSSFormatter = () => {
               setMode('minify');
               handleFormat();
             }}
-            className={`px-6 py-2 rounded-xl font-semibold transition-all ${
+            className={`px-6 py-2 rounded-xl font-semibold transition-all cursor-pointer ${
               mode === 'minify'
                 ? 'bg-primary text-primary-foreground'
                 : 'bg-muted text-muted-foreground hover:bg-muted/80'
@@ -148,7 +150,7 @@ export const HTMLCSSFormatter = () => {
               {input && (
                 <button
                   onClick={() => handleCopy(input)}
-                  className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm"
+                  className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm cursor-pointer"
                 >
                   <IconCopy className="w-4 h-4" />
                   Copy
@@ -167,7 +169,7 @@ export const HTMLCSSFormatter = () => {
             />
             <button
               onClick={handleFormat}
-              className="w-full px-6 py-3 bg-primary text-primary-foreground rounded-xl font-semibold hover:opacity-90 transition-all flex items-center justify-center gap-2"
+              className="w-full px-6 py-3 bg-primary text-primary-foreground rounded-xl font-semibold hover:opacity-90 transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <IconCode className="w-5 h-5" />
               {mode === 'format' ? 'Format' : 'Minify'}
@@ -181,14 +183,14 @@ export const HTMLCSSFormatter = () => {
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleCopy(output)}
-                    className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm"
+                    className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm cursor-pointer"
                   >
                     <IconCopy className="w-4 h-4" />
                     Copy
                   </button>
                   <button
                     onClick={() => handleDownload(output, `output.${type}`)}
-                    className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm"
+                    className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm cursor-pointer"
                   >
                     <IconDownload className="w-4 h-4" />
                     Download

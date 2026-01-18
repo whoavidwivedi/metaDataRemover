@@ -166,7 +166,7 @@ export const FileConverter = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <button
               onClick={() => handleConversionTypeChange('pdf-to-docx')}
-              className={`px-4 py-3 rounded-xl border-2 transition-all ${
+              className={`px-4 py-3 rounded-xl border-2 transition-all cursor-pointer ${
                 conversionType === 'pdf-to-docx'
                   ? 'border-primary bg-primary/10 text-primary'
                   : 'border-border bg-background text-muted-foreground hover:border-primary/50'
@@ -179,7 +179,7 @@ export const FileConverter = () => {
             </button>
             <button
               onClick={() => handleConversionTypeChange('docx-to-pdf')}
-              className={`px-4 py-3 rounded-xl border-2 transition-all ${
+              className={`px-4 py-3 rounded-xl border-2 transition-all cursor-pointer ${
                 conversionType === 'docx-to-pdf'
                   ? 'border-primary bg-primary/10 text-primary'
                   : 'border-border bg-background text-muted-foreground hover:border-primary/50'
@@ -192,7 +192,7 @@ export const FileConverter = () => {
             </button>
             <button
               onClick={() => handleConversionTypeChange('epub-to-pdf')}
-              className={`px-4 py-3 rounded-xl border-2 transition-all ${
+              className={`px-4 py-3 rounded-xl border-2 transition-all cursor-pointer ${
                 conversionType === 'epub-to-pdf'
                   ? 'border-primary bg-primary/10 text-primary'
                   : 'border-border bg-background text-muted-foreground hover:border-primary/50'
@@ -205,7 +205,7 @@ export const FileConverter = () => {
             </button>
             <button
               onClick={() => handleConversionTypeChange('pdf-to-epub')}
-              className={`px-4 py-3 rounded-xl border-2 transition-all ${
+              className={`px-4 py-3 rounded-xl border-2 transition-all cursor-pointer ${
                 conversionType === 'pdf-to-epub'
                   ? 'border-primary bg-primary/10 text-primary'
                   : 'border-border bg-background text-muted-foreground hover:border-primary/50'
@@ -292,7 +292,7 @@ export const FileConverter = () => {
                 </h3>
                 <button
                   onClick={handleClearAll}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
                 >
                   Clear All
                 </button>
@@ -312,7 +312,7 @@ export const FileConverter = () => {
                     </div>
                     <button
                       onClick={() => handleRemoveFile(index)}
-                      className="p-2 hover:bg-destructive/10 rounded-lg transition-colors"
+                      className="p-2 hover:bg-destructive/10 rounded-lg transition-colors cursor-pointer"
                     >
                       <IconRefresh className="w-4 h-4 text-destructive rotate-45" />
                     </button>
@@ -366,7 +366,7 @@ export const FileConverter = () => {
                       </div>
                       <button
                         onClick={() => handleDownload(converted)}
-                        className="p-2 hover:bg-primary/10 rounded-lg transition-colors"
+                        className="p-2 hover:bg-primary/10 rounded-lg transition-colors cursor-pointer"
                       >
                         <IconDownload className="w-4 h-4 text-primary" />
                       </button>
@@ -401,7 +401,7 @@ export const FileConverter = () => {
             <div className="flex justify-center pt-4">
               <button
                 onClick={handleClearAll}
-                className="px-6 py-2 bg-muted/50 hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm font-medium"
+                className="px-6 py-2 bg-muted/50 hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm font-medium cursor-pointer"
               >
                 <IconRefresh className="w-4 h-4" />
                 Convert More Files

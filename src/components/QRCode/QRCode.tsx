@@ -6,6 +6,7 @@ import {
   IconDownload,
 } from '@tabler/icons-react';
 import { generateQRCode } from '../../utils/qrCode';
+import { useToast } from '../ui/toast';
 
 export const QRCode = () => {
   const [text, setText] = useState('');
@@ -41,9 +42,10 @@ export const QRCode = () => {
     fetch(qrCode)
       .then(res => res.blob())
       .then(blob => navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]))
+      .then(() => showToast('Copied to clipboard'))
       .catch(() => {
         // Fallback: copy text
-        navigator.clipboard.writeText(text);
+        navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard'));
       });
   };
 
@@ -90,7 +92,7 @@ export const QRCode = () => {
 
           <button
             onClick={handleGenerate}
-            className="w-full px-6 py-3 bg-primary text-primary-foreground rounded-xl font-semibold hover:opacity-90 transition-all flex items-center justify-center gap-2"
+            className="w-full px-6 py-3 bg-primary text-primary-foreground rounded-xl font-semibold hover:opacity-90 transition-all flex items-center justify-center gap-2 cursor-pointer"
           >
             <IconQrcode className="w-5 h-5" />
             Generate QR Code
@@ -111,14 +113,14 @@ export const QRCode = () => {
             <div className="flex gap-3 justify-center">
               <button
                 onClick={handleCopy}
-                className="px-4 py-2 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2"
+                className="px-4 py-2 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 cursor-pointer"
               >
                 <IconCopy className="w-4 h-4" />
                 Copy
               </button>
               <button
                 onClick={handleDownload}
-                className="px-4 py-2 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2"
+                className="px-4 py-2 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 cursor-pointer"
               >
                 <IconDownload className="w-4 h-4" />
                 Download

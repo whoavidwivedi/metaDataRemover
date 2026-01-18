@@ -236,7 +236,7 @@ export const ImageCompressor = () => {
                 <h3 className="text-lg font-semibold">Selected Images ({files.length})</h3>
                 <button
                   onClick={handleClearAll}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
                 >
                   Clear All
                 </button>
@@ -403,7 +403,7 @@ export const ImageCompressor = () => {
               <h2 className="text-xl font-bold">Compressed Images</h2>
               <button
                 onClick={handleDownloadAll}
-                className="px-4 py-2 bg-muted hover:bg-muted/80 border border-border rounded-lg transition-colors flex items-center gap-2 text-sm font-medium"
+                className="px-4 py-2 bg-muted hover:bg-muted/80 border border-border rounded-lg transition-colors flex items-center gap-2 text-sm font-medium cursor-pointer"
               >
                 <IconDownload className="w-4 h-4" />
                 Download All
@@ -432,7 +432,7 @@ export const ImageCompressor = () => {
                       </p>
                       <button
                         onClick={() => handleDownload(compressed)}
-                        className="p-2 hover:bg-primary/10 rounded-lg transition-colors"
+                        className="p-2 hover:bg-primary/10 rounded-lg transition-colors cursor-pointer"
                       >
                         <IconDownload className="w-4 h-4 text-primary" />
                       </button>

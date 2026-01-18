@@ -6,6 +6,7 @@ import {
   IconDownload,
 } from '@tabler/icons-react';
 import { convertCSVToJSON, convertJSONToCSV } from '../../utils/csvJsonConverter';
+import { useToast } from '../ui/toast';
 
 export const CSVJSONConverter = () => {
   const [input, setInput] = useState('');
@@ -13,6 +14,7 @@ export const CSVJSONConverter = () => {
   const [mode, setMode] = useState<'csv-to-json' | 'json-to-csv'>('csv-to-json');
   const [hasHeaders, setHasHeaders] = useState(true);
   const [error, setError] = useState('');
+  const { showToast } = useToast();
 
   const handleConvert = () => {
     if (!input.trim()) {
@@ -34,7 +36,7 @@ export const CSVJSONConverter = () => {
   };
 
   const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard'));
   };
 
   const handleDownload = (text: string, filename: string) => {
@@ -73,7 +75,7 @@ export const CSVJSONConverter = () => {
               setOutput('');
               setError('');
             }}
-            className={`px-6 py-2 rounded-xl font-semibold transition-all ${
+            className={`px-6 py-2 rounded-xl font-semibold transition-all cursor-pointer ${
               mode === 'csv-to-json'
                 ? 'bg-primary text-primary-foreground'
                 : 'bg-muted text-muted-foreground hover:bg-muted/80'
@@ -88,7 +90,7 @@ export const CSVJSONConverter = () => {
               setOutput('');
               setError('');
             }}
-            className={`px-6 py-2 rounded-xl font-semibold transition-all ${
+            className={`px-6 py-2 rounded-xl font-semibold transition-all cursor-pointer ${
               mode === 'json-to-csv'
                 ? 'bg-primary text-primary-foreground'
                 : 'bg-muted text-muted-foreground hover:bg-muted/80'
@@ -123,7 +125,7 @@ export const CSVJSONConverter = () => {
             />
             <button
               onClick={handleConvert}
-              className="w-full px-6 py-3 bg-primary text-primary-foreground rounded-xl font-semibold hover:opacity-90 transition-all flex items-center justify-center gap-2"
+              className="w-full px-6 py-3 bg-primary text-primary-foreground rounded-xl font-semibold hover:opacity-90 transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <IconArrowsExchange className="w-5 h-5" />
               Convert
@@ -137,14 +139,14 @@ export const CSVJSONConverter = () => {
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleCopy(output)}
-                    className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm"
+                    className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm cursor-pointer"
                   >
                     <IconCopy className="w-4 h-4" />
                     Copy
                   </button>
                   <button
                     onClick={() => handleDownload(output, mode === 'csv-to-json' ? 'output.json' : 'output.csv')}
-                    className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm"
+                    className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm cursor-pointer"
                   >
                     <IconDownload className="w-4 h-4" />
                     Download

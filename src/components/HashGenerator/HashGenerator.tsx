@@ -5,6 +5,7 @@ import {
   IconCopy,
 } from '@tabler/icons-react';
 import { generateHash, type HashAlgorithm } from '../../utils/hashGenerator';
+import { useToast } from '../ui/toast';
 
 export const HashGenerator = () => {
   const [text, setText] = useState('');
@@ -35,7 +36,7 @@ export const HashGenerator = () => {
 
   const handleCopy = () => {
     if (hash) {
-      navigator.clipboard.writeText(hash);
+      navigator.clipboard.writeText(hash).then(() => showToast('Copied to clipboard'));
     }
   };
 
@@ -73,7 +74,7 @@ export const HashGenerator = () => {
                 <button
                   key={alg.value}
                   onClick={() => setAlgorithm(alg.value)}
-                  className={`px-4 py-2 rounded-xl font-semibold transition-all ${
+                  className={`px-4 py-2 rounded-xl font-semibold transition-all cursor-pointer ${
                     algorithm === alg.value
                       ? 'bg-primary text-primary-foreground'
                       : 'bg-muted text-muted-foreground hover:bg-muted/80'
@@ -106,7 +107,7 @@ export const HashGenerator = () => {
               <h2 className="text-lg font-bold">Hash Result</h2>
               <button
                 onClick={handleCopy}
-                className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm"
+                className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm cursor-pointer"
               >
                 <IconCopy className="w-4 h-4" />
                 Copy

@@ -239,14 +239,14 @@ function MetadataRemover() {
                   <div className="flex p-1 bg-secondary/50 rounded-lg border border-border/50">
                     <button
                       onClick={() => setViewMode('grid')}
-                      className={`p-1.5 rounded-md transition-all ${viewMode === 'grid' ? 'bg-background shadow-sm text-primary' : 'text-muted-foreground hover:text-foreground'}`}
+                      className={`p-1.5 rounded-md transition-all cursor-pointer ${viewMode === 'grid' ? 'bg-background shadow-sm text-primary' : 'text-muted-foreground hover:text-foreground'}`}
                       title="Grid View"
                     >
                       <IconLayoutGrid size={16} />
                     </button>
                     <button
                       onClick={() => setViewMode('list')}
-                      className={`p-1.5 rounded-md transition-all ${viewMode === 'list' ? 'bg-background shadow-sm text-primary' : 'text-muted-foreground hover:text-foreground'}`}
+                      className={`p-1.5 rounded-md transition-all cursor-pointer ${viewMode === 'list' ? 'bg-background shadow-sm text-primary' : 'text-muted-foreground hover:text-foreground'}`}
                       title="List View"
                     >
                       <IconList size={16} />
@@ -280,7 +280,7 @@ function MetadataRemover() {
                         {/* Delete Button on Hover */}
                         <button
                           onClick={() => handleRemoveFile(idx)}
-                          className="absolute top-2 right-2 p-1.5 bg-red-500/90 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all hover:scale-110 hover:bg-red-600 shadow-lg"
+                          className="absolute top-2 right-2 p-1.5 bg-red-500/90 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all hover:scale-110 hover:bg-red-600 shadow-lg cursor-pointer"
                           title="Remove File"
                         >
                           <IconX size={14} />
@@ -291,7 +291,7 @@ function MetadataRemover() {
                     {/* Add More Button (Grid) */}
                     <button
                       onClick={handleAddMoreClick}
-                      className="aspect-square rounded-2xl border-2 border-dashed border-border/60 hover:border-primary/50 hover:bg-primary/5 flex flex-col items-center justify-center gap-2 text-muted-foreground hover:text-primary transition-all group"
+                      className="aspect-square rounded-2xl border-2 border-dashed border-border/60 hover:border-primary/50 hover:bg-primary/5 flex flex-col items-center justify-center gap-2 text-muted-foreground hover:text-primary transition-all group cursor-pointer"
                     >
                       <div className="w-10 h-10 rounded-full bg-secondary group-hover:bg-primary/20 flex items-center justify-center transition-colors">
                         <IconPlus size={20} />
@@ -312,7 +312,7 @@ function MetadataRemover() {
                         </div>
                         <button
                           onClick={() => handleRemoveFile(idx)}
-                          className="p-2 text-muted-foreground hover:text-red-500 hover:bg-red-500/10 rounded-lg opacity-0 group-hover:opacity-100 transition-all"
+                          className="p-2 text-muted-foreground hover:text-red-500 hover:bg-red-500/10 rounded-lg opacity-0 group-hover:opacity-100 transition-all cursor-pointer"
                           title="Remove"
                         >
                           <IconX size={18} />
@@ -322,7 +322,7 @@ function MetadataRemover() {
 
                     <button
                       onClick={handleAddMoreClick}
-                      className="w-full py-3 rounded-xl border-2 border-dashed border-border/60 hover:border-primary/50 hover:bg-primary/5 flex items-center justify-center gap-2 text-muted-foreground hover:text-primary transition-all"
+                      className="w-full py-3 rounded-xl border-2 border-dashed border-border/60 hover:border-primary/50 hover:bg-primary/5 flex items-center justify-center gap-2 text-muted-foreground hover:text-primary transition-all cursor-pointer"
                     >
                       <IconPlus size={16} />
                       <span className="text-sm font-semibold">Add More Files</span>
@@ -385,7 +385,7 @@ function MetadataRemover() {
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-3 backdrop-blur-[2px]">
                     <button
                       onClick={() => handleDownloadSingle(pf)}
-                      className="px-4 py-2 bg-white text-black rounded-xl font-bold text-sm transform translate-y-4 group-hover:translate-y-0 transition-all hover:scale-105 flex items-center gap-2"
+                      className="px-4 py-2 bg-white text-black rounded-xl font-bold text-sm transform translate-y-4 group-hover:translate-y-0 transition-all hover:scale-105 flex items-center gap-2 cursor-pointer"
                     >
                       <IconDownload size={16} /> Download
                     </button>
@@ -402,7 +402,7 @@ function MetadataRemover() {
               {processedFiles.length > 1 && (
                 <button
                   onClick={handleDownloadAll}
-                  className="w-full sm:w-auto px-8 py-4 bg-primary text-primary-foreground text-sm font-bold uppercase tracking-widest rounded-2xl flex items-center justify-center gap-2 hover:opacity-90 transition-all shadow-xl shadow-primary/25 active:scale-[0.98]"
+                  className="w-full sm:w-auto px-8 py-4 bg-primary text-primary-foreground text-sm font-bold uppercase tracking-widest rounded-2xl flex items-center justify-center gap-2 hover:opacity-90 transition-all shadow-xl shadow-primary/25 active:scale-[0.98] cursor-pointer"
                 >
                   <IconArchive size={20} /> Download All (ZIP)
                 </button>
@@ -474,7 +474,7 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
             onClick={() => handleTabChange('home')}
-            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98]"
+            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
           >
             <div className="flex flex-col items-center text-center gap-3">
               <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
@@ -494,7 +494,7 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             onClick={() => handleTabChange('builder')}
-            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98]"
+            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
           >
             <div className="flex flex-col items-center text-center gap-3">
               <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
@@ -514,7 +514,7 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
             onClick={() => handleTabChange('editor')}
-            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98]"
+            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
           >
             <div className="flex flex-col items-center text-center gap-3">
               <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
@@ -533,8 +533,8 @@ export default function App() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            onClick={() => setActiveTab('compressor')}
-            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98]"
+            onClick={() => handleTabChange('compressor')}
+            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
           >
             <div className="flex flex-col items-center text-center gap-3">
               <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
@@ -554,7 +554,7 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
             onClick={() => handleTabChange('converter')}
-            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98]"
+            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
           >
             <div className="flex flex-col items-center text-center gap-3">
               <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
@@ -574,7 +574,7 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
             onClick={() => handleTabChange('json-formatter')}
-            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98]"
+            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
           >
             <div className="flex flex-col items-center text-center gap-3">
               <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
@@ -594,7 +594,7 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7 }}
             onClick={() => handleTabChange('xml-json-converter')}
-            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98]"
+            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
           >
             <div className="flex flex-col items-center text-center gap-3">
               <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
@@ -614,7 +614,7 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
             onClick={() => handleTabChange('text-diff')}
-            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98]"
+            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
           >
             <div className="flex flex-col items-center text-center gap-3">
               <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
@@ -634,7 +634,7 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.9 }}
             onClick={() => handleTabChange('password-generator')}
-            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98]"
+            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
           >
             <div className="flex flex-col items-center text-center gap-3">
               <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
@@ -654,7 +654,7 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.0 }}
             onClick={() => handleTabChange('qrcode')}
-            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98]"
+            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
           >
             <div className="flex flex-col items-center text-center gap-3">
               <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
@@ -674,7 +674,7 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.1 }}
             onClick={() => handleTabChange('base64')}
-            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98]"
+            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
           >
             <div className="flex flex-col items-center text-center gap-3">
               <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
@@ -694,7 +694,7 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2 }}
             onClick={() => handleTabChange('hash-generator')}
-            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98]"
+            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
           >
             <div className="flex flex-col items-center text-center gap-3">
               <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
@@ -714,7 +714,7 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.3 }}
             onClick={() => handleTabChange('csv-json-converter')}
-            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98]"
+            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
           >
             <div className="flex flex-col items-center text-center gap-3">
               <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
@@ -734,7 +734,7 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.4 }}
             onClick={() => handleTabChange('markdown-editor')}
-            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98]"
+            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
           >
             <div className="flex flex-col items-center text-center gap-3">
               <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
@@ -754,7 +754,7 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.5 }}
             onClick={() => handleTabChange('text-utilities')}
-            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98]"
+            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
           >
             <div className="flex flex-col items-center text-center gap-3">
               <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
@@ -774,7 +774,7 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.6 }}
             onClick={() => handleTabChange('yaml-formatter')}
-            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98]"
+            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
           >
             <div className="flex flex-col items-center text-center gap-3">
               <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
@@ -794,7 +794,7 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.7 }}
             onClick={() => handleTabChange('html-css-formatter')}
-            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98]"
+            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
           >
             <div className="flex flex-col items-center text-center gap-3">
               <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
@@ -814,7 +814,7 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.8 }}
             onClick={() => handleTabChange('uuid-generator')}
-            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98]"
+            className="group relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
           >
             <div className="flex flex-col items-center text-center gap-3">
               <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
