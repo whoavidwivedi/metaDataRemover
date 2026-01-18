@@ -17,11 +17,13 @@ import {
   IconList,
   IconBrandX,
   IconHeart,
-  IconFileText
+  IconFileText,
+  IconPhoto
 } from '@tabler/icons-react';
 import { FileUpload } from './components/ui/file-upload';
 import { FormBuilder } from './components/FormBuilder/FormBuilder';
 import { PDFEditor } from './components/PDFEditor/PDFEditor';
+import { ImageCompressor } from './components/ImageCompressor/ImageCompressor';
 import { removeMetadata, formatBytes } from './utils/imageProcessor';
 import { Button } from './components/ui/stateful-button';
 
@@ -397,7 +399,7 @@ function MetadataRemover() {
 }
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'home' | 'builder' | 'editor'>('home');
+  const [activeTab, setActiveTab] = useState<'home' | 'builder' | 'editor' | 'compressor'>('home');
 
   return (
     <div className="min-h-screen flex flex-col items-center py-12 md:py-20 px-4 relative overflow-hidden selection:bg-primary/30 font-sans">
@@ -424,7 +426,7 @@ export default function App() {
         </p>
 
         {/* Feature Cards */}
-        <div className="grid md:grid-cols-3 gap-4 mb-10 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-10 max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -477,6 +479,25 @@ export default function App() {
                 <h3 className="font-bold text-foreground mb-2">PDF Editor</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   Combine multiple PDFs, remove pages, extract pages, or add text annotations. All editing happens locally in your browser.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="group relative p-6 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/30 transition-all hover:shadow-lg hover:shadow-primary/5"
+          >
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                <IconPhoto size={24} className="text-primary" />
+              </div>
+              <div className="flex-1 text-left">
+                <h3 className="font-bold text-foreground mb-2">Image Compressor</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Resize, compress, and convert images to your desired format and size. Control dimensions, quality, and output format.
                 </p>
               </div>
             </div>
@@ -539,6 +560,24 @@ export default function App() {
               <IconFileText size={16} /> PDF Editor
             </span>
           </button>
+          <button
+            onClick={() => setActiveTab('compressor')}
+            className={`
+                            relative px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300
+                            ${activeTab === 'compressor' ? 'text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}
+                        `}
+          >
+            {activeTab === 'compressor' && (
+              <motion.div
+                layoutId="activeTab"
+                className="absolute inset-0 bg-primary rounded-xl shadow-lg shadow-primary/20"
+                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+              />
+            )}
+            <span className="relative z-10 flex items-center gap-2">
+              <IconPhoto size={16} /> Image Compressor
+            </span>
+          </button>
         </div>
       </motion.div>
 
@@ -564,7 +603,7 @@ export default function App() {
             >
               <FormBuilder />
             </motion.div>
-          ) : (
+          ) : activeTab === 'editor' ? (
             <motion.div
               key="editor"
               initial={{ opacity: 0, x: 20 }}
@@ -573,6 +612,16 @@ export default function App() {
               transition={{ duration: 0.3 }}
             >
               <PDFEditor />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="compressor"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <ImageCompressor />
             </motion.div>
           )}
         </AnimatePresence>
