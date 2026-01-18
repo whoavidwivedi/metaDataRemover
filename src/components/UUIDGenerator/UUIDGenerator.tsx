@@ -110,7 +110,7 @@ export const UUIDGenerator = () => {
               <h2 className="text-lg font-bold">Generated UUID{uuids.length > 1 ? 's' : ''}</h2>
               <button
                 onClick={handleCopyAll}
-                className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm"
+                className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors flex items-center gap-2 text-sm cursor-pointer"
               >
                 <IconCopy className="w-4 h-4" />
                 Copy All
