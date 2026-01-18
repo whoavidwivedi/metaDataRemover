@@ -225,7 +225,7 @@ export async function convertDOCXToPDF(file: File): Promise<Blob> {
         let currentLine = '';
         
         for (const word of words) {
-          const testLine = currentLine ? `${currentLine} ${word}` : word;
+          let testLine = currentLine ? `${currentLine} ${word}` : word;
           
           // Try to calculate text width, catch errors for unsupported characters
           let textWidth: number;
