@@ -43,7 +43,7 @@ export const Notes = () => {
   // Get or create ref for a note (called during render but stable)
   const getNoteRef = (id: string): React.RefObject<HTMLDivElement> => {
     if (!noteRefsMap.current[id]) {
-      noteRefsMap.current[id] = React.createRef<HTMLDivElement>();
+      noteRefsMap.current[id] = React.createRef<HTMLDivElement>() as React.RefObject<HTMLDivElement>;
     }
     return noteRefsMap.current[id];
   };
