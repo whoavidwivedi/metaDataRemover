@@ -102,8 +102,7 @@ export const ImageCropper = () => {
                       height: `${cropArea.height}px`,
                     }}
                     onMouseDown={(e) => {
-                      setIsDragging(true);
-                      setDragStart({ x: e.clientX - cropArea.x, y: e.clientY - cropArea.y });
+                      e.preventDefault();
                     }}
                   />
                 </div>

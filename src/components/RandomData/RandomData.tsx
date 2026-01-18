@@ -7,7 +7,6 @@ const firstNames = ['John', 'Jane', 'Michael', 'Sarah', 'David', 'Emily', 'James
 const lastNames = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis'];
 const domains = ['example.com', 'test.com', 'demo.org', 'sample.net'];
 const cities = ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix', 'Philadelphia'];
-const countries = ['USA', 'Canada', 'UK', 'Australia', 'Germany', 'France'];
 
 export const RandomData = () => {
   const [type, setType] = useState<'name' | 'email' | 'phone' | 'address' | 'uuid' | 'number'>('name');

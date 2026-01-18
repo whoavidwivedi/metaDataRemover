@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { IconRadio, IconCopy, IconArrowsExchange } from '@tabler/icons-react';
+import { IconRadio, IconCopy } from '@tabler/icons-react';
 import { useToast } from '../ui/toast';
 
 const morseCode: Record<string, string> = {

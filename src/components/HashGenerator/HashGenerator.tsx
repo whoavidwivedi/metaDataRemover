@@ -12,6 +12,7 @@ export const HashGenerator = () => {
   const [algorithm, setAlgorithm] = useState<HashAlgorithm>('sha256');
   const [hash, setHash] = useState('');
   const [error, setError] = useState('');
+  const { showToast } = useToast();
 
   const algorithms: { value: HashAlgorithm; label: string }[] = [
     { value: 'md5', label: 'MD5' },

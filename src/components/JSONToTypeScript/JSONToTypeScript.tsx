@@ -9,7 +9,7 @@ export const JSONToTypeScript = () => {
   const [interfaceName, setInterfaceName] = useState('Data');
   const { showToast } = useToast();
 
-  const jsonToTypeScript = (obj: any, name: string = 'Data', indent: number = 0): string => {
+  const jsonToTypeScript = (obj: any, _name: string = 'Data', indent: number = 0): string => {
     const spaces = '  '.repeat(indent);
     let result = '';
 

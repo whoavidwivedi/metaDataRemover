@@ -26,7 +26,6 @@ export const DataMasking = () => {
     const digits = phone.replace(/\D/g, '');
     if (digits.length < 4) return phone;
     const visible = digits.slice(-4);
-    const masked = maskChar.repeat(digits.length - 4);
     return phone.replace(/\d/g, (_, idx) => idx < digits.length - 4 ? maskChar : visible[idx - (digits.length - 4)]);
   };
 

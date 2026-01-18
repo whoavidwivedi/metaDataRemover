@@ -13,6 +13,7 @@ export const QRCode = () => {
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [size, setSize] = useState(200);
   const [error, setError] = useState('');
+  const { showToast } = useToast();
 
   const handleGenerate = async () => {
     if (!text.trim()) {

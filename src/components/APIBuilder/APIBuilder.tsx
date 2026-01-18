@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { IconWorld, IconCopy, IconPlayerPlay } from '@tabler/icons-react';
+import { IconWorld, IconPlayerPlay } from '@tabler/icons-react';
 import { useToast } from '../ui/toast';
 
 type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
@@ -8,7 +8,7 @@ type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 export const APIBuilder = () => {
   const [method, setMethod] = useState<Method>('GET');
   const [url, setUrl] = useState('');
-  const [headers, setHeaders] = useState<Record<string, string>>({});
+  const [headers] = useState<Record<string, string>>({});
   const [body, setBody] = useState('');
   const [response, setResponse] = useState<any>(null);
   const [loading, setLoading] = useState(false);
@@ -52,12 +52,6 @@ export const APIBuilder = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text).then(() => {
-      showToast('Copied to clipboard');
-    });
   };
 
   return (

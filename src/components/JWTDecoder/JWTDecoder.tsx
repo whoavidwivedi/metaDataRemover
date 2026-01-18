@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { IconKey, IconCopy, IconCheck, IconX } from '@tabler/icons-react';
+import { IconKey, IconCopy, IconX } from '@tabler/icons-react';
 import { useToast } from '../ui/toast';
 
 interface JWTPayload {

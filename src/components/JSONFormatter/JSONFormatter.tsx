@@ -12,6 +12,7 @@ import {
 import { formatJSON, minifyJSON, validateJSON, getJSONStats } from '../../utils/jsonFormatter';
 import { Button } from '../ui/stateful-button';
 import { formatBytes } from '../../utils/imageProcessor';
+import { useToast } from '../ui/toast';
 
 export const JSONFormatter = () => {
   const [jsonInput, setJsonInput] = useState('');

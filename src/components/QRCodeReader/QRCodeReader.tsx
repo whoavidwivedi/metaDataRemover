@@ -1,6 +1,6 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { IconQrcode, IconUpload, IconCopy } from '@tabler/icons-react';
+import { IconQrcode, IconCopy } from '@tabler/icons-react';
 import { FileUpload } from '../ui/file-upload';
 import { useToast } from '../ui/toast';
 
